@@ -21,9 +21,15 @@ namespace ParkItControllers
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Park>> Get()
+    public ActionResult<IEnumerable<Park>> Get([FromQuery] PaginationFilter filter)
     {
-      return _db.Parks.ToList();
+      var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+      var pagedData = _db.Parks
+        .Skip((validFilter.PageNumber-1) * validFilter.PageSize)
+        .Take(validFilter.PageSize)
+        .ToList();
+      // var totalRecords = _db.Parks.Count;
+      return Ok(new PagedResponse<List<Park>>(pagedData, validFilter.PageNumber, validFilter.PageSize));
     }
 
     [HttpPost]
@@ -64,8 +70,8 @@ namespace ParkItControllers
     [HttpGet("{id}")]
     public ActionResult <Park> Get(int id)
     {
-      return _db.Parks.FirstOrDefault(entry=>entry.ParkId == id);
-      
+      var thisPark =  _db.Parks.FirstOrDefault(entry=>entry.ParkId == id);
+      return Ok(new Response<Park>(thisPark));
     }
 
     [HttpGet]
