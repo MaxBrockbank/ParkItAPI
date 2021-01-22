@@ -90,5 +90,14 @@ namespace ParkItControllers
 
       return query.ToList();
     }
+
+    [HttpGet]
+    [Route("random")]
+    public ActionResult <Park> Random()
+    {
+      Random random = new Random();
+      int randomPark = random.Next(_db.Parks.ToList().Count);
+      return _db.Parks.FirstOrDefault(entry=>entry.ParkId == randomPark);
+    }
   }
 }
