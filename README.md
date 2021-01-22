@@ -5,16 +5,20 @@
 <p align="center">Authored by Max Brockabnk</p>
 <p align="center">Updated on Friday, January 15th, 2021</p>
 
-# Description
+## Description
+<hr>
 This API is used to track State and National Parks with a C# .NET Core API built with a MySQL database. A user can get all parks, query the api for a specific park, create, update, or delete new parks. The API utilizes versioning that way as the code is updated and features are added, those using the earlier versions aren't forced to shut down their site or application until they are ready to the newest version. Swagger docs are also available for easily readable documentation on each API endpoint and the ability to test those endpoints with a user friendly interface.
 
 ## Required Technologies
+<hr>
+
 * C# .NET Core Ver 2.2.0
 * MySQL Ver 8.0.15 and MySQL Workbench
 * Text editor
 * Modern web browser 
 
-### Set-up Instructions
+## Set-up Instructions
+<hr>
 
 #### Cloning this repo
 1. On GitHub, navigate to my ParkItAPI.Solution repo, then click on the green button on the right side of the screen that says 'Code'.
@@ -54,22 +58,73 @@ Although messing with the data-types in the models folder will require that you 
 3. Replace `PORT_NUMBER`, `USER`, and `PASSWORD` with your machines configurations.
 
 
+## API Documentation
+<hr>
+
+### Using Swagger Documentation
+
+To utilize Swagger Documentation for the Park It API, get the api running with the `dotnet run` command and then in your web browser go the `http://localhost:5000/swagger`. Here you can see and test each of the endpoints of the API.
+
+
+### Pagination
+
+
+
+### Endpoints
+
+Base URL: `http://localhost:5000`
+
+#### HTTP Request Structure
+<br>
+
+#### API VERSION 1.0
+```
+GET - api/parks
+POST - api/parks
+PUT - api/parks{id}
+DELETE - api/parks{id}
+```
+<br>
+
+#### API VERSION 2.0
+```
+GET - api/{Version:apiVersion}/parks/{id}
+RANDOM - api/{Version:apiVersion}/parks/random (GET request that is randomized)
+```
+<br>
+
+#### Path Parameters
+|Parameter|Type|Default|Required|Description|
+|:--| :--| :--| :--| ---|
+|name|string|none|false|Return matches by park name.
+|state|string|none|false|Return matches by park state.
+|parkType|string|none|false|Return matches by park what kind of park it is. (Ex. National Park vs State Park)
+<br>
+<br>
 ## Technologies Used
-* C# .NET Core
-* ASP.NET Core
-* Entity Framework Core
-* API verioning 
-* Swagger Documentation
-* MySQL◊
+<hr>
+
+* C# .NET Core 2.2.0
+* ASP.NET Core 
+* Entity Framework Core 2.2.0
+* API verioning 4.1.0
+* Swashbuckle Swagger Documentation 5.5.0
+* MySQL
 
 ## Known Bugs
+<hr>
+
 * No currently known bugs, please contact me if any are found.
 
 
 ## Contact 
+<hr>
+
 * [maxbrockbank1999@gmail.com](mailto:maxbrockbank1999@gmail.com)
 
 
 ## Legal
+<hr>
+
 * Copyright © 2020 Max Brockbank
 * This software is licensed under the MIT license
