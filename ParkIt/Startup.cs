@@ -2,9 +2,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
 
 namespace ParkIt
 {
@@ -21,7 +22,7 @@ namespace ParkIt
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ParkItContext>(opt=>
-                opt.UseSql(Configuration.GetConnectionString("DefaultConnection")));
+                opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddApiVersioning(o=>{
                 o.ReportApiVersions = true;
