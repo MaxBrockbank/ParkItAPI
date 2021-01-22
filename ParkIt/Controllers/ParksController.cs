@@ -12,7 +12,7 @@ namespace ParkItControllers
   [ApiVersion("1.0")]
   [Route("api/Parks")]
   [ApiController]
-  public class ParksV1Controller
+  public class ParksV1Controller : ControllerBase
   {
     private ParkItContext _db;
     public ParksV1Controller(ParkItContext db)
@@ -47,6 +47,48 @@ namespace ParkItControllers
       var thisPark = _db.Parks.FirstOrDefault(entry=>entry.ParkId == id);
       _db.Parks.Remove(thisPark);
       _db.SaveChanges();
+    }
+  }
+  
+  [ApiVersion("2.0")]
+  [Route("api/{Version:apiVersion}/Parks")]
+  [ApiController]
+  public class ParksV2Controller : ControllerBase
+  {
+    private ParkItContext _db;
+    public ParksV2Controller(ParkItContext db)
+    {
+      _db = db;
+    }
+
+    [HttpGet("{id}")]
+    public ActionResult <Park> Get(int id)
+    {
+      return _db.Parks.FirstOrDefault(entry=>entry.ParkId == id);
+      
+    }
+
+    [HttpGet]
+    public ActionResult <IEnumerable<Park>> Get(string name, string state, string parkType)
+    {
+      var query = _db.Parks.AsQueryable();
+
+      if(name!=null)
+      {
+        query = query.Where(entry=>entry.Name == name);
+      }
+      
+      if(state!=null)
+      {
+        query = query.Where(entry=>entry.State == state);
+      }
+
+      if(parkType!=null)
+      {
+        query = query.Where(entry=>entry.ParkType == parkType);
+      }
+
+      return query.ToList();
     }
   }
 }
