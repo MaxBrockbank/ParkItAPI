@@ -59,16 +59,25 @@ Although messing with the data-types in the models folder will require that you 
 
 
 ## API Documentation
+
 <hr>
 
 ### Using Swagger Documentation
 
 To utilize Swagger Documentation for the Park It API, get the api running with the `dotnet run` command and then in your web browser go the `http://localhost:5000/swagger`. Here you can see and test each of the endpoints of the API.
 
+<br>
+
 
 ### Pagination
 
+Pagination became available in Version 3.0 of the API. If you're wanting to use this version of our GET request `pageSize` and `pageNumber` parameters are required in the query string.
 
+Example Query:
+```
+http://localhost:5000/api/3.0/parks?pageSize=5&pageNumber=2
+```
+<br>
 
 ### Endpoints
 
@@ -89,16 +98,28 @@ DELETE - api/parks{id}
 #### API VERSION 2.0
 ```
 GET - api/{Version:apiVersion}/parks/{id}
+GET - api/{Version:apiVersion}/parks?_PARAMETERS_ (Check path parameters table)
 RANDOM - api/{Version:apiVersion}/parks/random (GET request that is randomized)
+```
+<br>
+
+#### API VERSION 3.0
+```
+GET - api/{Version:apiVersion}/parks/{id}
 ```
 <br>
 
 #### Path Parameters
 |Parameter|Type|Default|Required|Description|
 |:--| :--| :--| :--| ---|
-|name|string|none|false|Return matches by park name.
-|state|string|none|false|Return matches by park state.
-|parkType|string|none|false|Return matches by park what kind of park it is. (Ex. National Park vs State Park)
+|API 2.0|
+|name|string|none|false|Return matches by park name.|
+|state|string|none|false|Return matches by park state.|
+|parkType|string|none|false|Return matches by park what kind of park it is. (Ex. National Park vs State Park)|
+|API 3.0|
+|pageSize|int|none|true|Specifies number of objects per response page|
+|pageNumber|int|none|true|Specifies which page number to return|
+
 <br>
 <br>
 ## Technologies Used
