@@ -71,7 +71,7 @@ To utilize Swagger Documentation for the Park It API, get the api running with t
 
 ### Pagination
 
-Pagination became available in Version 3.0 of the API. If you're wanting to use this version of our GET request `pageSize` and `pageNumber` parameters are required in the query string.
+Pagination became available in Version 3.0 of the API. If you're wanting to use these endpoints `pageSize` and `pageNumber` parameters are required in the query string.
 
 Example Query:
 ```
@@ -106,6 +106,7 @@ RANDOM - api/{Version:apiVersion}/parks/random (GET request that is randomized)
 #### API VERSION 3.0
 ```
 GET - api/{Version:apiVersion}/parks/{id}
+SEARCH - api/{Version:apiVersion}/parks/search?_PARAMETERS_ (Check path parameters table)
 ```
 <br>
 
