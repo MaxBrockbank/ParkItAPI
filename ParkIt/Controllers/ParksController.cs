@@ -14,22 +14,16 @@ namespace ParkItControllers
   [ApiController]
   public class ParksV1Controller : ControllerBase
   {
-    private ParkItContext _db;
+    private readonly ParkItContext _db;
     public ParksV1Controller(ParkItContext db)
     {
       _db = db;
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Park>> Get([FromQuery] PaginationFilter filter)
+    public ActionResult<IEnumerable<Park>> Get()
     {
-      var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
-      var pagedData = _db.Parks
-        .Skip((validFilter.PageNumber-1) * validFilter.PageSize)
-        .Take(validFilter.PageSize)
-        .ToList();
-      // var totalRecords = _db.Parks.Count;
-      return Ok(new PagedResponse<List<Park>>(pagedData, validFilter.PageNumber, validFilter.PageSize));
+      return _db.Parks.ToList();
     }
 
     [HttpPost]
@@ -61,7 +55,7 @@ namespace ParkItControllers
   [ApiController]
   public class ParksV2Controller : ControllerBase
   {
-    private ParkItContext _db;
+    private readonly ParkItContext _db;
     public ParksV2Controller(ParkItContext db)
     {
       _db = db;
@@ -104,6 +98,27 @@ namespace ParkItControllers
       Random random = new Random();
       int randomPark = random.Next(_db.Parks.ToList().Count);
       return _db.Parks.FirstOrDefault(entry=>entry.ParkId == randomPark);
+    }
+  }
+
+  [ApiVersion("3.0")]
+  [Route("api/{Version:apiVersion}/Parks")]
+  [ApiController]
+  public class ParksV3Controller : ControllerBase
+  {
+    private readonly ParkItContext _db;
+    public ParksV3Controller(ParkItContext db)
+    {
+      _db = db;
+    }
+    public ActionResult<IEnumerable<Park>> Get([FromQuery] PaginationFilter filter)
+    {
+      var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+      var pagedData = _db.Parks
+        .Skip((validFilter.PageNumber-1) * validFilter.PageSize)
+        .Take(validFilter.PageSize)
+        .ToList();
+      return Ok(new PagedResponse<List<Park>>(pagedData, validFilter.PageNumber, validFilter.PageSize));
     }
   }
 }
