@@ -111,10 +111,39 @@ namespace ParkItControllers
     {
       _db = db;
     }
+    [HttpGet]
     public ActionResult<IEnumerable<Park>> Get([FromQuery] PaginationFilter filter)
     {
       var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
       var pagedData = _db.Parks
+        .Skip((validFilter.PageNumber-1) * validFilter.PageSize)
+        .Take(validFilter.PageSize)
+        .ToList();
+      return Ok(new PagedResponse<List<Park>>(pagedData, validFilter.PageNumber, validFilter.PageSize));
+    }
+
+    [HttpGet]
+    [Route("search")]
+    public ActionResult<IEnumerable<Park>> Search([FromQuery] PaginationFilter filter, string name, string state, string parkType)
+    {
+      var query = _db.Parks.AsQueryable();
+
+      if(name!=null)
+      {
+        query = query.Where(entry=>entry.Name == name);
+      }
+      
+      if(state!=null)
+      {
+        query = query.Where(entry=>entry.State == state);
+      }
+
+      if(parkType!=null)
+      {
+        query = query.Where(entry=>entry.ParkType == parkType);
+      }
+      var validFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+      var pagedData = query
         .Skip((validFilter.PageNumber-1) * validFilter.PageSize)
         .Take(validFilter.PageSize)
         .ToList();
